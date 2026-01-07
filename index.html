@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Binary Search Tree in C</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            margin: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        pre {
+            background: #1e1e1e;
+            color: #e6e6e6;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+        ul {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📘 Binary Search Tree (BST)</h1>
+<h2>Implementation in C</h2>
+
+<div class="container">
+
+<p>This program implements a <b>Binary Search Tree</b> and supports:</p>
+<ul>
+    <li>Insertion of nodes</li>
+    <li>Searching for a value</li>
+    <li>Inorder traversal</li>
+</ul>
+
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+} Node;
+
+Node* createNode(int value) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode-&gt;data = value;
+    newNode-&gt;left = newNode-&gt;right = NULL;
+    return newNode;
+}
+
+Node* insert(Node* root, int value) {
+    if (root == NULL) {
+        return createNode(value);
+    }
+
+    if (value &lt; root-&gt;data) {
+        root-&gt;left = insert(root-&gt;left, value);
+    } else if (value &gt; root-&gt;data) {
+        root-&gt;right = insert(root-&gt;right, value);
+    } else {
+        printf("Duplicate value %d not allowed in BST.\n", value);
+    }
+    return root;
+}
+
+Node* search(Node* root, int value) {
+    if (root == NULL || root-&gt;data == value)
+        return root;
+
+    if (value &lt; root-&gt;data)
+        return search(root-&gt;left, value);
+    else
+        return search(root-&gt;right, value);
+}
+
+void inorder(Node* root) {
+    if (root != NULL) {
+        inorder(root-&gt;left);
+        printf("%d ", root-&gt;data);
+        inorder(root-&gt;right);
+    }
+}
+
+int main() {
+    Node* root = NULL;
+    int choice, val;
+    Node* found;
+
+    while (1) {
+        printf("\n--- Binary Search Tree Menu ---\n");
+        printf("1. Insert\n2. Search\n3. Inorder Traversal\n4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter value to insert: ");
+                scanf("%d", &val);
+                root = insert(root, val);
+                break;
+
+            case 2:
+                printf("Enter value to search: ");
+                scanf("%d", &val);
+                found = search(root, val);
+                if (found != NULL)
+                    printf("Value %d found in BST.\n", val);
+                else
+                    printf("Value %d not found in BST.\n", val);
+                break;
+
+            case 3:
+                printf("Inorder Traversal: ");
+                inorder(root);
+                printf("\n");
+                break;
+
+            case 4:
+                exit(0);
+
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+    return 0;
+}
+</pre>
+
+</div>
+
+</body>
+</html>
